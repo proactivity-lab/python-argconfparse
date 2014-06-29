@@ -42,7 +42,8 @@ class ConfigArgumentParser(object):
                     for key, value in dict(config.items(self.section)).iteritems():
                         args, unknown = self.parser.parse_known_args(("--{}".format(key), value), namespace=args)
                         if len(unknown) > 0:
-                            self.parser.error("unrecognized argument {} {}".format(key, value))
+                            if key.startswith("var_") is False:
+                                self.parser.error("unrecognized argument {} {}".format(key, value))
 
             else:
                 self.parser.error("unable to read configuration file {}".format(args.conf_file))

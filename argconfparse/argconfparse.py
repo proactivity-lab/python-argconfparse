@@ -53,6 +53,9 @@ class ConfigArgumentParser(object):
     def add_argument(self, *args, **kwargs):
         self.parser.add_argument(*args, **kwargs)
 
+    def error(self, message):
+        self.parser.error(message)
+
 
 def arg_str2bool(v):
     """ Use this for boolean options, regular bool is always treated as True. """

@@ -1,10 +1,11 @@
-""" ArgumentParser with ConfigParser thrown in."""
-
-__author__ = "Raido Pahtma"
-__license__ = "MIT"
+"""argconfparse.py: ArgumentParser with ConfigParser thrown in."""
 
 import argparse
 import ConfigParser
+
+
+__author__ = "Raido Pahtma"
+__license__ = "MIT"
 
 
 class ConfigArgumentParser(object):
@@ -79,10 +80,10 @@ def arg_check_hex16str(v):
 
 
 if __name__ == '__main__':
-    parser = ConfigArgumentParser("stuff", description="ConfigArgumentParser test description.", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = ConfigArgumentParser("stuff", description="ConfigArgumentParser test description.",
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--option1", help="some option")
     parser.add_argument("--option2", help="some other option")
     parser.add_argument("--option3", help="some third option")
-    args = parser.parse_args()
 
-    print args
+    print parser.parse_args()

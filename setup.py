@@ -9,7 +9,7 @@ from setuptools import setup
 doclines = __doc__.split("\n")
 
 setup(name='argconfparse',
-      version='0.1.1',
+      version='0.1.2.dev0',
       description='Python argparse with options to read argument values from configuration files.',
       long_description='\n'.join(doclines[2:]),
       url='http://github.com/proactivity-lab/python-argconfparse',
@@ -18,4 +18,5 @@ setup(name='argconfparse',
       license='MIT',
       platforms=["any"],
       packages=['argconfparse'],
+      tests_require=['mock', 'nose'],
       zip_safe=False)

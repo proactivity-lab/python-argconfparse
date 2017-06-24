@@ -1,7 +1,16 @@
 """argconfparse.py: ArgumentParser with ConfigParser thrown in."""
 
+from __future__ import print_function
+
+try:
+    from ConfigParser import SafeConfigParser as ConfigParser
+except ImportError:
+    try:
+        from configparser import SafeConfigParser as ConfigParser
+    except ImportError:
+        from configparser import ConfigParser
 import argparse
-import ConfigParser
+from codecs import decode
 
 
 __author__ = "Raido Pahtma"
@@ -31,16 +40,16 @@ class ConfigArgumentParser(object):
         args, remaining_argv = self.conf_parser.parse_known_args()
 
         if args.conf_file:
-            config = ConfigParser.SafeConfigParser()
+            config = ConfigParser()
 
             if len(config.read([args.conf_file])) > 0:
 
                 if config.has_section("defaults"):
-                    for key, value in dict(config.items("defaults")).iteritems():
+                    for key, value in dict(config.items("defaults")).items():
                         args, unknown = self.parser.parse_known_args(("--{}".format(key), value), namespace=args)
 
                 if config.has_section(self.section):
-                    for key, value in dict(config.items(self.section)).iteritems():
+                    for key, value in dict(config.items(self.section)).items():
                         args, unknown = self.parser.parse_known_args(("--{}".format(key), value), namespace=args)
                         if len(unknown) > 0:
                             if key.startswith("var_") is False:
@@ -72,8 +81,11 @@ def arg_check_hex16str(v):
     """ Verify that the provided argument is a 16 character hexadecimal string """
     if isinstance(v, str):
         if len(v) == 16:
-            v.decode("hex")
-            return v
+            try:
+                decode(v, "hex")
+                return v
+            except TypeError:
+                raise ValueError("Value must be a valid HEX string")
         else:
             raise ValueError("Value must be 16 characters long")
     raise ValueError("Value must be a string")
@@ -86,4 +98,4 @@ if __name__ == '__main__':
     parser.add_argument("--option2", help="some other option")
     parser.add_argument("--option3", help="some third option")
 
-    print parser.parse_args()
+    print(parser.parse_args())
